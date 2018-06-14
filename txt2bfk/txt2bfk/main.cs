@@ -4,12 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace txt2bfk
+namespace text_to_bf
 {
     class Program
     {
+
+
+
+
         static void Main(string[] args)
         {
+            ComputeBF ka = new ComputeBF();
         }
     }
 }
