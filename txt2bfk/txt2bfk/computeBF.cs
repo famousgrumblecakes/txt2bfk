@@ -34,8 +34,9 @@ namespace text_to_bf
 
         }
 
-        Queue<int>[] generateCells(int[][] dists, int[] input, int size)
-        {
+        Queue<int>[] generateCells(int[][] dists, int[] input, int size, int cell_spread)
+        { 
+
             Queue<int>[] cells = new Queue<int>[size];
 
             int cellcount = 0;
@@ -46,7 +47,7 @@ namespace text_to_bf
                     cells[cellcount] = new Queue<int>();
                     for (int k = i; k < size; k++)
                     {
-                        if (dists[i][k] < 5)
+                        if (dists[i][k] <= cell_spread)
                         {
                             bool found = false;
 
@@ -111,7 +112,7 @@ namespace text_to_bf
             int[][] distances = getDistances(user_input, user_input_str.Length);
 
 
-            Queue<int>[] cells = generateCells(distances, user_input, user_input_str.Length);
+            Queue<int>[] cells = generateCells(distances, user_input, user_input_str.Length, 5);
 
 
             Console.ReadKey();
