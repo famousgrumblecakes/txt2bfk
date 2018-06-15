@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace text_to_bf
 {
+
     class ComputeBF
     {
         int[][] getDistances(int[] input, int size)
@@ -17,14 +15,7 @@ namespace text_to_bf
                 dists[i] = new int[size];
                 for (int k = 0; k < size; k++)
                 {
-                    if (i == k)
-                    {
-                        dists[i][k] = -1;
-                    }
-                    else
-                    {
-                        dists[i][k] = Math.Abs(input[i] - input[k]);
-                    }
+                    dists[i][k] = Math.Abs(input[i] - input[k]);
                 }
             }
 
@@ -43,6 +34,60 @@ namespace text_to_bf
 
         }
 
+        Queue<int>[] generateCells(int[][] dists, int[] input, int size)
+        {
+            Queue<int>[] cells = new Queue<int>[size];
+
+            int cellcount = 0;
+            Queue<int> used = new Queue<int>();
+            for (int i = 0; i < size; i++)
+            {
+
+                    cells[cellcount] = new Queue<int>();
+                    for (int k = i; k < size; k++)
+                    {
+                        if (dists[i][k] < 5)
+                        {
+                            bool found = false;
+
+                            foreach (int p in used)
+                            {
+                                if (p == k)
+                                {
+                                    found = true;
+                                }
+                            }
+                            if (found == false)
+                            {
+                                cells[cellcount].Enqueue(k);
+                                used.Enqueue(k);
+                            }
+                        }
+                    }
+                if (cells[cellcount].Count != 0)
+                {
+                    cellcount++;
+                }
+                if(used.Count == size)
+                {
+                    break;
+                }
+            }
+
+            Console.WriteLine("\n\nCharacters: " + size + ". Cells: " + cellcount);
+
+            for (int i = 0; i < cellcount; i++)
+            {
+                Console.Write("Cell " + i + ": ");
+                foreach (int j in cells[i])
+                {
+                    Console.Write((char)input[j] + ", ");
+                }
+                Console.WriteLine();
+            }
+
+            return cells;
+        }
 
         public ComputeBF()
         {
@@ -64,6 +109,9 @@ namespace text_to_bf
             Console.WriteLine();
 
             int[][] distances = getDistances(user_input, user_input_str.Length);
+
+
+            Queue<int>[] cells = generateCells(distances, user_input, user_input_str.Length);
 
 
             Console.ReadKey();
