@@ -34,21 +34,23 @@ namespace text_to_bf
 
         }
 
-        Queue<int>[] generateCells(int[] input, int size, int cell_spread)
+        List<Queue<int>> generateCells(int[] input, int size, int cell_spread)
         { 
 
-            Queue<int>[] cells = new Queue<int>[size];
+            List<Queue<int>> cells = new List<Queue<int>>();
+
 
             int cellcount = 0;
             Queue<int> used = new Queue<int>();
+            int[] sorted = new int[size];
             for (int i = 0; i < size; i++)
             {
-
-                    cells[cellcount] = new Queue<int>();
-                    for (int k = i; k < size; k++)
-                    {
-                        if(Math.Abs(input[i] - input[k]) <= cell_spread)
+                    Queue<int> item = new Queue<int>();
+                    cells.Add(item);
+               for(int k = i; k < size; k++)
                         {
+                    if(Math.Abs(input[i] - input[k]) <= cell_spread)
+                    {
                                 bool found = false;
 
                                 foreach (int p in used)
@@ -60,22 +62,27 @@ namespace text_to_bf
                                 }
                                 if (found == false)
                                 {
-                                    cells[cellcount].Enqueue(k);
+                                    cells[cellcount].Enqueue(input[k]);
                                     used.Enqueue(k);
-                                }
+                                    sorted[k] = cellcount;
                         }
                     }
-                        if (cells[cellcount].Count != 0)
+
+                }
+                if (cells[cellcount].Count != 0)
                         {
                             cellcount++;
                         }
                         if(used.Count == size)
                         {
+
                             break;
                         }
             }
 
-                    Console.WriteLine("Characters: " + size + ". Cells: " + cellcount);
+            Console.WriteLine("Characters: " + size + ". Cells: " + cellcount);
+
+
 
             for (int i = 0; i < cellcount; i++)
             {
@@ -87,8 +94,16 @@ namespace text_to_bf
                 Console.WriteLine();
             }
 
+
+            for (int i = 0; i < size; i++)
+            {
+                Console.Write((char)cells[sorted[i]].Dequeue());
+            }
+
             return cells;
         }
+
+
 
         public ComputeBF()
         {
@@ -110,8 +125,7 @@ namespace text_to_bf
             Console.WriteLine();
 
             //getDistances(user_input, user_input_str.Length);
-            Queue<int>[] cells = generateCells(user_input, user_input_str.Length, 5);
-
+            List<Queue<int>> cells = generateCells(user_input, user_input_str.Length, 5);
 
             Console.ReadKey();
         }
