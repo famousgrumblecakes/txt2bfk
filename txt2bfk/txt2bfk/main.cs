@@ -8,10 +8,6 @@ namespace text_to_bf
 {
     class Program
     {
-
-
-
-
         static void Main(string[] args)
         {
             ComputeBF ka = new ComputeBF();

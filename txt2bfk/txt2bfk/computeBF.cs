@@ -35,7 +35,7 @@ namespace text_to_bf
         }
 
         List<Queue<int>> generateCells(int[] input, int size, int cell_spread)
-        { 
+        {
 
             List<Queue<int>> cells = new List<Queue<int>>();
 
@@ -45,44 +45,41 @@ namespace text_to_bf
             int[] sorted = new int[size];
             for (int i = 0; i < size; i++)
             {
-                    Queue<int> item = new Queue<int>();
-                    cells.Add(item);
-               for(int k = i; k < size; k++)
-                        {
-                    if(Math.Abs(input[i] - input[k]) <= cell_spread)
+                Queue<int> item = new Queue<int>();
+                cells.Add(item);
+                for (int k = i; k < size; k++)
+                {
+                    if (Math.Abs(input[i] - input[k]) <= cell_spread)
                     {
-                                bool found = false;
+                        bool found = false;
 
-                                foreach (int p in used)
-                                {
-                                    if (p == k)
-                                    {
-                                        found = true;
-                                    }
-                                }
-                                if (found == false)
-                                {
-                                    cells[cellcount].Enqueue(input[k]);
-                                    used.Enqueue(k);
-                                    sorted[k] = cellcount;
+                        foreach (int p in used)
+                        {
+                            if (p == k)
+                            {
+                                found = true;
+                            }
+                        }
+                        if (found == false)
+                        {
+                            cells[cellcount].Enqueue(input[k]);
+                            used.Enqueue(k);
+                            sorted[k] = cellcount;
                         }
                     }
 
                 }
                 if (cells[cellcount].Count != 0)
-                        {
-                            cellcount++;
-                        }
-                        if(used.Count == size)
-                        {
-
-                            break;
-                        }
+                {
+                    cellcount++;
+                }
+                if (used.Count == size)
+                {
+                    break;
+                }
             }
 
             Console.WriteLine("Characters: " + size + ". Cells: " + cellcount);
-
-
 
             for (int i = 0; i < cellcount; i++)
             {
@@ -95,10 +92,67 @@ namespace text_to_bf
             }
 
 
+            for (int i = 0; i < sorted.Length; i++)
+            {
+                Console.Write("Sorted: " + sorted[i] + ", ");
+            }
+
             for (int i = 0; i < size; i++)
             {
-                Console.Write((char)cells[sorted[i]].Dequeue());
+                //Console.Write((char)cells[sorted[i]].Dequeue());
             }
+
+
+            int x = 0;
+            int[] output = new int[cells.Count];
+            for (int i = 0; i < cells.Count; i++)
+            {
+                output[i] = 0;
+            }
+
+            foreach (int i in sorted)
+            {
+                while (x != i)
+                {
+                    if (x > i)
+                    {
+                        x--;
+                        Console.Write("<");
+                        // decrement bfk pointer <
+                    }
+                    else
+                    {
+                        x++;
+                        Console.Write(">");
+                        //increment bfk pointer >
+                    }
+                }
+                int tmp = cells[x].Dequeue();
+
+
+
+
+                while (output[x] != tmp )
+                {
+                    if (output[x] > tmp)
+                    {
+                        output[x]--;
+                        Console.Write("-");
+                        //decrement whatever output[x] is at
+                    }
+                    else
+                    {
+                        output[x]++;
+                        Console.Write("+");
+                        //increment whatever output[x] is at
+                    }
+                }
+
+
+                Console.Write(".");
+            }
+
+
 
             return cells;
         }
