@@ -67,7 +67,6 @@ namespace text_to_bf
                             sorted[k] = cellcount;
                         }
                     }
-
                 }
                 if (cells[cellcount].Count != 0)
                 {
@@ -79,27 +78,14 @@ namespace text_to_bf
                 }
             }
 
-            Console.WriteLine("Characters: " + size + ". Cells: " + cellcount);
-
             for (int i = 0; i < cellcount; i++)
             {
                 Console.Write("Cell " + i + ": ");
                 foreach (int j in cells[i])
                 {
-                    Console.Write(j + ", ");
+                    Console.Write((char)j + ", ");
                 }
                 Console.WriteLine();
-            }
-
-
-            for (int i = 0; i < sorted.Length; i++)
-            {
-                Console.Write("Sorted: " + sorted[i] + ", ");
-            }
-
-            for (int i = 0; i < size; i++)
-            {
-                //Console.Write((char)cells[sorted[i]].Dequeue());
             }
 
 
@@ -107,7 +93,7 @@ namespace text_to_bf
             int[] output = new int[cells.Count];
             for (int i = 0; i < cells.Count; i++)
             {
-                output[i] = 0;
+                output[i] = -1;
             }
 
             foreach (int i in sorted)
@@ -130,24 +116,57 @@ namespace text_to_bf
                 int tmp = cells[x].Dequeue();
 
 
-
-
-                while (output[x] != tmp )
+                //Optimize a cell on its first call, kinda
+                if (output[x] == -1)
                 {
-                    if (output[x] > tmp)
+                    output[x] = 0;
+
+
+                    int div = 1;
+
+                    for (int j = 1; j < tmp /2; j++)
                     {
-                        output[x]--;
-                        Console.Write("-");
-                        //decrement whatever output[x] is at
+                        if (tmp % j == 0 && j < tmp / div)
+                        {
+                            div = j;
+                        }
                     }
-                    else
+                    for (int j = 0; j < div; j++)
+                    {
+                        Console.Write("+");
+                    }
+                    Console.Write("[>");
+
+                    while (output[x] != tmp / div)
                     {
                         output[x]++;
                         Console.Write("+");
-                        //increment whatever output[x] is at
+
+                    }
+                    Console.Write("<-]>");
+                    output[x] = tmp;
+                }
+                else
+                {
+                    while (output[x] != tmp)
+                    {
+                        if (output[x] > tmp)
+                        {
+                            output[x]--;
+                            Console.Write("-");
+                            //decrement whatever output[x] is at
+                        }
+                        else
+                        {
+                            output[x]++;
+                            Console.Write("+");
+                            //increment whatever output[x] is at
+                        }
                     }
                 }
 
+
+                
 
                 Console.Write(".");
             }
