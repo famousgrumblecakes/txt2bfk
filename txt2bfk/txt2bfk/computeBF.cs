@@ -123,7 +123,7 @@ namespace text_to_bf
 
 
                     int div = 1;
-
+                    Console.Write(">");
                     for (int j = 1; j < tmp /2; j++)
                     {
                         if (tmp % j == 0 && j < tmp / div)
@@ -135,7 +135,7 @@ namespace text_to_bf
                     {
                         Console.Write("+");
                     }
-                    Console.Write("[>");
+                    Console.Write("[<");
 
                     while (output[x] != tmp / div)
                     {
@@ -143,7 +143,7 @@ namespace text_to_bf
                         Console.Write("+");
 
                     }
-                    Console.Write("<-]>");
+                    Console.Write(">-]<");
                     output[x] = tmp;
                 }
                 else
