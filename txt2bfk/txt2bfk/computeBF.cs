@@ -28,8 +28,6 @@ namespace text_to_bf
                 }
                 Console.WriteLine();
             }
-
-
             return dists;
 
         }
@@ -86,8 +84,9 @@ namespace text_to_bf
                     Console.Write((char)j + ", ");
                 }
                 Console.WriteLine();
-            }
+                Console.WriteLine();
 
+            }
 
             int x = 0;
             int[] output = new int[cells.Count * 100];
@@ -100,7 +99,6 @@ namespace text_to_bf
             {
                 while (x != sorted[i]) //bring the bf cursor back to the cell we want to work with
                 {
-
                     if (x > sorted[i])
                     {
                         x--;
@@ -121,7 +119,6 @@ namespace text_to_bf
                 {
                     //output[x] = 0;
 
-
                     int div = 1;
 
                     int count = 0;
@@ -137,9 +134,6 @@ namespace text_to_bf
                     {
                         Console.Write(">"); //adjust for when we have to put the counter in a weird place. j is for adjust.
                     }
-
-
-
 
                     for (int j = 1; j < tmp / 2; j++)
                     {
@@ -158,8 +152,6 @@ namespace text_to_bf
                     {
                         Console.Write("<"); //adjust for when we have to put the counter in a weird place. j is for adjust.
                     }
-
-
 
                     while (output[x] != tmp / div)
                     {
@@ -199,18 +191,8 @@ namespace text_to_bf
                         }
                     }
                 }
-
-
-
-
-
-                Console.Write(".\n");
-
-
+                Console.Write(".");
             }
-
-
-
             return cells;
         }
 
