@@ -90,17 +90,18 @@ namespace text_to_bf
 
 
             int x = 0;
-            int[] output = new int[cells.Count];
+            int[] output = new int[cells.Count * 100];
             for (int i = 0; i < cells.Count; i++)
             {
-                output[i] = -1;
+                output[i] = 0;
             }
-
-            foreach (int i in sorted)
+            //foreach (int i in sorted)
+            for(int i = 0; i < sorted.Length; i++)
             {
-                while (x != i)
+                while (x != sorted[i]) //bring the bf cursor back to the cell we want to work with
                 {
-                    if (x > i)
+
+                    if (x > sorted[i])
                     {
                         x--;
                         Console.Write("<");
@@ -115,16 +116,32 @@ namespace text_to_bf
                 }
                 int tmp = cells[x].Dequeue();
 
-
                 //Optimize a cell on its first call, kinda
-                if (output[x] == -1)
+                if (output[x] == 0)
                 {
-                    output[x] = 0;
+                    //output[x] = 0;
 
 
                     int div = 1;
-                    Console.Write(">");
-                    for (int j = 1; j < tmp /2; j++)
+
+                    int count = 0;
+
+                    for (int j = 0; output[x + 1 + j] != 0; j++)
+                    {
+                        count++;
+                    }
+                    //Console.Write("count = {0}", count);
+                    Console.Write(">"); //shift bf to next pointer to begin a counter.
+
+                    for (int j = 0; j < count; j++)
+                    {
+                        Console.Write(">"); //adjust for when we have to put the counter in a weird place. j is for adjust.
+                    }
+
+
+
+
+                    for (int j = 1; j < tmp / 2; j++)
                     {
                         if (tmp % j == 0 && j < tmp / div)
                         {
@@ -133,18 +150,36 @@ namespace text_to_bf
                     }
                     for (int j = 0; j < div; j++)
                     {
-                        Console.Write("+");
+                        Console.Write("+"); //do the loop this many times
                     }
-                    Console.Write("[<");
+                    Console.Write("["); //begin loop
+                    Console.Write("<"); //go back to letter
+                    for (int j = 0; j < count; j++)
+                    {
+                        Console.Write("<"); //adjust for when we have to put the counter in a weird place. j is for adjust.
+                    }
+
+
 
                     while (output[x] != tmp / div)
                     {
                         output[x]++;
-                        Console.Write("+");
-
+                        Console.Write("+"); //increment letter
                     }
-                    Console.Write(">-]<");
+
+                    Console.Write(">");//go back to the counter
+                    for (int j = 0; j < count; j++)
+                    {
+                        Console.Write(">"); //adjust for when we have to put the counter in a weird place. j is for adjust.
+                    }
+                    Console.Write("-]"); //decrement counter
+                    Console.Write("<"); //go back to letter
+                    for (int j = 0; j < count; j++)
+                    {
+                        Console.Write("<"); //adjust for when we have to put the counter in a weird place. j is for adjust.
+                    }
                     output[x] = tmp;
+
                 }
                 else
                 {
@@ -160,15 +195,18 @@ namespace text_to_bf
                         {
                             output[x]++;
                             Console.Write("+");
-                            //increment whatever output[x] is at
+                            //increment whatever output[x] is at until it = the value we want
                         }
                     }
                 }
 
 
-                
 
-                Console.Write(".");
+
+
+                Console.Write(".\n");
+
+
             }
 
 
