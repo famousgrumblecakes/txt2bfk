@@ -32,7 +32,7 @@ namespace text_to_bf
 
         }
 
-        List<Queue<int>> generateCells(int[] input, int size, int cell_spread)
+        List<Queue<int>> generateCells(int[][] dists, int[] input, int size, int cell_spread)
         {
 
             List<Queue<int>> cells = new List<Queue<int>>();
@@ -47,7 +47,7 @@ namespace text_to_bf
                 cells.Add(item);
                 for (int k = i; k < size; k++)
                 {
-                    if (Math.Abs(input[i] - input[k]) <= cell_spread)
+                    if(dists[i][k] <= cell_spread)
                     {
                         bool found = false;
 
@@ -64,8 +64,10 @@ namespace text_to_bf
                             used.Enqueue(k);
                             sorted[k] = cellcount;
                         }
+
                     }
                 }
+
                 if (cells[cellcount].Count != 0)
                 {
                     cellcount++;
@@ -97,6 +99,7 @@ namespace text_to_bf
             //foreach (int i in sorted)
             for(int i = 0; i < sorted.Length; i++)
             {
+                int adjust = 0;
                 while (x != sorted[i]) //bring the bf cursor back to the cell we want to work with
                 {
                     if (x > sorted[i])
@@ -135,13 +138,23 @@ namespace text_to_bf
                         Console.Write(">"); //adjust for when we have to put the counter in a weird place. j is for adjust.
                     }
 
-                    for (int j = 1; j < tmp / 2; j++)
+
+                    while (div == 1)
                     {
-                        if (tmp % j == 0 && j < tmp / div)
+                        for (int j = 1; j < tmp / 2; j++)
                         {
-                            div = j;
+                            if (tmp % j == 0 && j < tmp / div)
+                            {
+                                div = j;
+                            }
+                        }
+                        if (div == 1)
+                        {
+                            adjust++;
+                            tmp--;
                         }
                     }
+
                     for (int j = 0; j < div; j++)
                     {
                         Console.Write("+"); //do the loop this many times
@@ -191,6 +204,10 @@ namespace text_to_bf
                         }
                     }
                 }
+                for (int j = 0; j < adjust; j++)
+                {
+                    Console.Write("+");
+                }
                 Console.Write(".");
             }
             return cells;
@@ -217,8 +234,8 @@ namespace text_to_bf
             }
             Console.WriteLine();
 
-            //getDistances(user_input, user_input_str.Length);
-            List<Queue<int>> cells = generateCells(user_input, user_input_str.Length, 5);
+            int[][] dists = getDistances(user_input, user_input_str.Length);
+            List<Queue<int>> cells = generateCells(dists, user_input, user_input_str.Length, 8);
 
             Console.ReadKey();
         }
