@@ -207,6 +207,8 @@ namespace text_to_bf
                 for (int j = 0; j < adjust; j++)
                 {
                     Console.Write("+");
+                    output[x]++;
+
                 }
                 Console.Write(".");
             }
