@@ -10,7 +10,21 @@ namespace text_to_bf
     {
         static void Main(string[] args)
         {
-            ComputeBF ka = new ComputeBF();
+            if (args.Count() != 0)
+            {
+                string input = "";
+                for (int i = 0; i < args.Count(); i++)
+                {
+                    input = input + args[i];
+                    if (i != args.Count() -1)
+                    {
+                        input += " ";
+                    }
+                }
+
+                ComputeBF ka = new ComputeBF(input);
+            }
+
         }
     }
 }

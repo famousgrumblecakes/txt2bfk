@@ -18,18 +18,7 @@ namespace text_to_bf
                     dists[i][k] = Math.Abs(input[i] - input[k]);
                 }
             }
-
-            for (int i = 0; i < size; i++)
-            {
-                Console.Write(input[i] + ": ");
-                for (int k = 0; k < size; k++)
-                {
-                    Console.Write(dists[i][k] + ", ");
-                }
-                Console.WriteLine();
-            }
             return dists;
-
         }
 
         List<Queue<int>> generateCells(int[][] dists, int[] input, int size, int cell_spread)
@@ -78,17 +67,6 @@ namespace text_to_bf
                 }
             }
 
-            for (int i = 0; i < cellcount; i++)
-            {
-                Console.Write("Cell " + i + ": ");
-                foreach (int j in cells[i])
-                {
-                    Console.Write((char)j + ", ");
-                }
-                Console.WriteLine();
-                Console.WriteLine();
-
-            }
 
             int x = 0;
             int[] output = new int[cells.Count * 100];
@@ -217,10 +195,9 @@ namespace text_to_bf
 
 
 
-        public ComputeBF()
+        public ComputeBF(string input_string)
         {
-            Console.WriteLine("Write a line to convert to BF");
-            string user_input_str = Console.ReadLine();
+            string user_input_str = input_string;
 
             int[] user_input = new int[user_input_str.Length];
             user_input_str.ToCharArray();
@@ -229,17 +206,10 @@ namespace text_to_bf
             {
                 user_input[i] = Convert.ToInt32(user_input_str[i]);
             }
-            Console.Write("ASCII Values of {0}: ", user_input_str);
-            foreach (int i in user_input)
-            {
-                Console.Write(i + ", ");
-            }
-            Console.WriteLine();
+
 
             int[][] dists = getDistances(user_input, user_input_str.Length);
             List<Queue<int>> cells = generateCells(dists, user_input, user_input_str.Length, 8);
-
-            Console.ReadKey();
         }
     }
 }
